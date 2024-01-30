@@ -1,0 +1,84 @@
+---
+version: '3.9'
+name: 'grafana'
+services:
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ${PWD}/prometheus:/etc/prometheus/
+    container_name: prometheus
+    hostname: prometheus
+    env_file: ${PWD}/.env
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - ${PROMETHEUS_PORT}:9090
+    restart: always
+    environment:
+      TZ: ${TZ}
+    networks:
+      - default
+
+  grafana:
+    image: grafana/grafana
+    user: root
+    depends_on:
+      - prometheus
+    env_file: ${PWD}/.env
+    ports:
+      - ${GRAFANA_PORT}:3000
+    volumes:
+      - ${PWD}/grafana:/var/lib/grafana
+      - ${PWD}/grafana/provisioning/:/etc/grafana/provisioning/
+    container_name: grafana
+    hostname: grafana
+    restart: always
+    environment:
+      TZ: ${TZ}
+    networks:
+      - default
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    user: root
+    env_file: ${PWD}/.env
+    ports:
+      - ${ALERTMANAGER_HOST}:${ALERTMANAGER_PORT}:9093
+    volumes:
+      - ${PWD}/alertmanager/:/etc/alertmanager/
+    container_name: alertmanager
+    hostname: alertmanager
+    environment:
+      TZ: ${TZ}
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/etc/alertmanager/data'
+    networks:
+      - default
+
+  blackbox:
+    image: prom/blackbox-exporter
+    container_name: blackbox
+    hostname: blackbox
+    env_file: ${PWD}/.env
+    ports:
+      - ${BLACKBOX_PORT}:9115
+    restart: always
+    command:
+      - "--config.file=/etc/blackbox/blackbox.yml"
+    volumes:
+      - ${PWD}/blackbox:/etc/blackbox
+    environment:
+      TZ: ${TZ}
+    networks:
+      - default
+
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
