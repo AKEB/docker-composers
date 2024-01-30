@@ -1,10 +1,13 @@
-version: '3.3'
+---
+version: '3.4'
+name: 'homepage'
 services:
 
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     restart: always
     container_name: homepage
+    env_file: ${PWD}/.env
     ports:
       - ${PORT}:3000
     volumes:

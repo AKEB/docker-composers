@@ -1,0 +1,16 @@
+---
+version: '3.4'
+name: 'whats-up-docker'
+services:
+
+  whatsupdocker:
+    image: fmartinou/whats-up-docker
+    container_name: wud
+    env_file: ${PWD}/.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${PWD}/store:/store
+      - ${PWD}/tls:/tls:ro
+    ports:
+      - ${WEB_UI_PORT}:3000
+
