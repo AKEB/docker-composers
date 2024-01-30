@@ -1,0 +1,36 @@
+version: '3.3'
+name: 'nginx-proxy'
+services:
+
+  nginx-proxy:
+    container_name: nginx-proxy
+    restart: always
+    image: 'jc21/nginx-proxy-manager:latest'
+    environment:
+      TZ: ${TZ}
+      REAL_IP_HEADER: "X-Real-IP"
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+    ports:
+      - 80:80
+      - ${ADMIN_PORT}:81
+      - 443:443
+    volumes:
+      - ./config.json:/app/config/production.json
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    links:
+      - mariadb
+
+  mariadb:
+    container_name: mariadb
+    restart: always
+    image: 'yobasystems/alpine-mariadb:latest'
+    environment:
+      TZ: ${TZ}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/lib/mysql 
+

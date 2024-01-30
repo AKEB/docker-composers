@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    restart: always
+    container_name: homepage
+    ports:
+      - ${PORT}:3000
+    volumes:
+      - ${PWD}/config:/app/config
+    environment:
+      - TZ=${TZ}
