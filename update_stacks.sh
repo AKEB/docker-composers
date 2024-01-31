@@ -35,7 +35,7 @@ for dirname in ${STACKS_DIRS}; do
 
                 if [ -f ${STACKDIR}${dirname}${filename}.bak ]
                 then
-                    diff ${STACKDIR}${dirname}${filename} ${STACKDIR}${dirname}${filename}.bak
+                    diff ${STACKDIR}${dirname}${filename}.bak ${STACKDIR}${dirname}${filename}
                 fi
             fi
         done
