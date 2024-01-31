@@ -1,0 +1,24 @@
+---
+version: '3.9'
+name: mariadb
+services:
+
+  mariadb:
+    image: mariadb:10.7
+    container_name: mariadb
+    restart: always
+    env_file: ${PWD}/.env
+    ports:
+      - ${MARIADB_PORT}:3306
+    volumes:
+      - ${PWD}/mariadb:/var/lib/mysql
+      - ${PWD}/mariadb_config:/etc/mysql
+    labels:
+      - wud.watch=false
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    env_file: ${PWD}/.env
+    ports:
+      - ${PHPMYADMIN_WEB_PORT}:80

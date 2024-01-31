@@ -1,0 +1,23 @@
+---
+version: '3.9'
+name: semaphore
+
+services:
+  mysql:
+    restart: always
+    image: mysql:8.0
+    hostname: mysql
+    volumes:
+      - ${PWD}/mysql_data:/var/lib/mysql
+    env_file: ${PWD}/.env
+    labels:
+      - wud.watch=false
+
+  semaphore:
+    restart: always
+    ports:
+      - 60888:3000
+    image: semaphoreui/semaphore:latest
+    env_file: ${PWD}/.env
+    depends_on:
+      - mysql
