@@ -24,8 +24,17 @@ for dirname in ${STACKS_DIRS}; do
     for filename in ${COPYFILES}; do
         if [ -f ${GITDIR}${dirname}${filename} ]
         then
-            cp ${STACKDIR}${dirname}${filename} ${STACKDIR}${dirname}${filename}.bak
+            if [ -f ${STACKDIR}${dirname}${filename} ]
+            then
+                cp ${STACKDIR}${dirname}${filename} ${STACKDIR}${dirname}${filename}.bak
+            fi
+
             cp ${GITDIR}${dirname}${filename} ${STACKDIR}${dirname}${filename}
+
+            if [ -f ${STACKDIR}${dirname}${filename}.bak ]
+            then
+                diff ${STACKDIR}${dirname}${filename} ${STACKDIR}${dirname}${filename}.bak
+            fi
         fi
     done
 
