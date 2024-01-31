@@ -1,0 +1,11 @@
+---
+version: "3"
+name: watchtower
+services:
+  watchtower:
+    image: containrrr/watchtower
+    env_file: ${PWD}/.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 3044:8080
