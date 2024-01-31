@@ -1,0 +1,20 @@
+---
+version: '3.9'
+name: jellyfin
+services:
+
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    user: 0:0
+    network_mode: 'host'
+    volumes:
+      - ${PWD}/config:/config
+      - ${PWD}/cache:/cache
+      # - /mnt/video:/media
+      # - /mnt/music:/music
+    restart: 'always'
+    environment:
+      - JELLYFIN_PublishedServerUrl=${EXTERNAL_HOST}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
