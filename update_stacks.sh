@@ -1,7 +1,7 @@
 #!/bin/bash
 
-GITDIR=${PWD}/docker-composers/
-STACKDIR=${PWD}/stacks/
+GITDIR=${PWD}/
+STACKDIR=${PWD}/../stacks/
 
 pushd ${GITDIR} >> /dev/null
     git pull
