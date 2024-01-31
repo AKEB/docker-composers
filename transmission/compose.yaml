@@ -1,0 +1,17 @@
+---
+version: "3.7"
+name: transmission
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    env_file: ${PWD}/.env
+    volumes:
+      - ${PWD}/config:/config
+      - ${DOWNLOADS_PATH}:/downloads
+      - ${TORRENTS_PATH}:/watch
+    ports:
+      - ${WEB_PORT}:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: always
