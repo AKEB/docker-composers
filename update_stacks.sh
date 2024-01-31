@@ -1,7 +1,9 @@
 #!/bin/bash
 
-GITDIR=${PWD}/
-STACKDIR=${PWD}/../stacks/
+pushd ../ >> /dev/null
+
+GITDIR=${PWD}/docker-composers/
+STACKDIR=${PWD}/stacks/
 
 pushd ${GITDIR} >> /dev/null
     git pull
@@ -32,3 +34,5 @@ for dirname in ${STACKS_DIRS}; do
     popd >> /dev/null
 
 done
+
+popd >> /dev/null
