@@ -35,6 +35,8 @@ services:
       timeout: 3s
     volumes:
       - ${PWD}/redis:/data
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   server:
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.10.6}
@@ -56,6 +58,8 @@ services:
     depends_on:
       - postgresql
       - redis
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   worker:
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.10.6}
@@ -83,3 +87,5 @@ services:
     depends_on:
       - postgresql
       - redis
+    labels:
+      - com.centurylinklabs.watchtower.enable=true

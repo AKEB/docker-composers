@@ -27,6 +27,8 @@ services:
       - redis
       - database
     restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   immich-microservices:
     container_name: immich_microservices
@@ -44,6 +46,8 @@ services:
       - redis
       - database
     restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -52,12 +56,16 @@ services:
       - ./model-cache:/cache
     env_file: ${PWD}/.env
     restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   redis:
     container_name: immich_redis
     image: redis:6.2-alpine@sha256:c5a607fb6e1bb15d32bbcf14db22787d19e428d59e31a5da67511b49bb0f1ccc
     restart: always
     env_file: ${PWD}/.env
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   database:
     container_name: immich_postgres

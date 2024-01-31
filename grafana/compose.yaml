@@ -17,6 +17,8 @@ services:
     restart: always
     networks:
       - default
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   grafana:
     image: grafana/grafana
@@ -34,6 +36,8 @@ services:
     restart: always
     networks:
       - default
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   alertmanager:
     image: prom/alertmanager:latest
@@ -51,6 +55,8 @@ services:
       - '--storage.path=/etc/alertmanager/data'
     networks:
       - default
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   blackbox:
     image: prom/blackbox-exporter
@@ -66,6 +72,8 @@ services:
       - ${PWD}/blackbox:/etc/blackbox
     networks:
       - default
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
 
 networks:

@@ -22,3 +22,5 @@ services:
     env_file: ${PWD}/.env
     ports:
       - ${PHPMYADMIN_WEB_PORT}:80
+    labels:
+      - com.centurylinklabs.watchtower.enable=true

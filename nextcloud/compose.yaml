@@ -16,6 +16,8 @@ services:
     image: redis
     restart: always
     env_file: ${PWD}/.env
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   nextcloud:
     container_name: nextcloud
@@ -47,3 +49,4 @@ services:
       - ${NEXTCLOUD_DATA_DIR}:${NEXTCLOUD_DATA_DIR}:z
       - /mnt/share:/mnt/share:z
     restart: always
+

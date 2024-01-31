@@ -12,6 +12,8 @@ services:
     volumes:
       - ${PWD}/books:/var/lib/dav
       - ${PWD}/user.passwd:/user.passwd
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   calibre-web:
     image: lscr.io/linuxserver/calibre-web:latest
@@ -23,6 +25,8 @@ services:
     ports:
       - ${BOOKS_PORT}:8083
     restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   nettalk:
     image: cptactionhank/netatalk:latest
@@ -32,3 +36,5 @@ services:
     volumes:
       - ${PWD}/afp.conf:/etc/afp.conf
       - ${PWD}/books/data:/books
+    labels:
+      - com.centurylinklabs.watchtower.enable=true

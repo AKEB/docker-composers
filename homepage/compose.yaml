@@ -12,3 +12,5 @@ services:
       - ${PORT}:3000
     volumes:
       - ${PWD}/config:/app/config
+    labels:
+      - com.centurylinklabs.watchtower.enable=true

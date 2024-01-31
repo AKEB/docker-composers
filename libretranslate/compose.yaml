@@ -17,3 +17,5 @@ services:
       - ${PWD}/db:/app/db
       - ${PWD}/data:/home/libretranslate/.local/share
       - ${PWD}/cache:/home/libretranslate/.local/cache
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
