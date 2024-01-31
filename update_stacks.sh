@@ -15,7 +15,8 @@ popd >> /dev/null
 
 
 for dirname in ${STACKS_DIRS}; do
-    echo ${dirname::-1}
+    echo ""
+    echo "-= ${dirname::-1} =-"
 
     if [ -d ${GITDIR}${dirname} ]
     then
