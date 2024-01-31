@@ -1,0 +1,15 @@
+---
+version: '3.4'
+name: vaultwarden
+services:
+
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    volumes:
+      - ${PWD}/data/:/data/
+    restart: always
+    env_file: ${PWD}/.env
+    ports:
+      - ${WEB_PORT}:80
+      - ${WEBSOCKET_PORT}:${WEBSOCKET_PORT}
