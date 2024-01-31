@@ -1,0 +1,18 @@
+---
+version: '3.3'
+name: 'prometheus-pve-exporter'
+services:
+
+  prometheus-pve-exporter:
+    image: prompve/prometheus-pve-exporter
+    volumes:
+      - ./pve.yml:/etc/prometheus/pve.yml
+    container_name: prometheus-pve-exporter
+    hostname: pve-exporter
+    env_file: ${PWD}/.env
+#    ports:
+#      - ${PORT}:9221
+    restart: always
+    network_mode: host
+    environment:
+      TZ: "Europe/Moscow"
