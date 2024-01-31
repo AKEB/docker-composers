@@ -1,0 +1,21 @@
+---
+version: '3.4'
+name: 'nginx-proxy-manager-sqlite'
+services:
+
+  app:
+    container_name: nginx-proxy
+    restart: always
+    image: 'jc21/nginx-proxy-manager:latest'
+    env_file: ${PWD}/.env
+    ports:
+      - 80:80
+      - ${ADMIN_PORT}:81
+      - 443:443
+    volumes:
+      - ${PWD}/config.json:/app/config/production.json
+      - ${PWD}/data:/data
+      - ${PWD}/letsencrypt:/etc/letsencrypt
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+
