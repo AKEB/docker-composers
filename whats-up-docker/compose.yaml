@@ -13,4 +13,5 @@ services:
       - ${PWD}/tls:/tls:ro
     ports:
       - ${WEB_UI_PORT}:3000
-
+    labels:
+      - com.centurylinklabs.watchtower.enable=true

@@ -18,6 +18,8 @@ services:
       - ${PWD}/letsencrypt:/etc/letsencrypt
     links:
       - mariadb
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   mariadb:
     container_name: mariadb

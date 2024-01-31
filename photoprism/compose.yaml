@@ -47,6 +47,8 @@ services:
       - "/media/photo/originals:/photoprism/originals:rw"          # Original media files (DO NOT REMOVE)
       - "/media/photo/import:/photoprism/import:rw"                  # *Optional* base folder from which files can be imported to originals
       - "/media/storage:/photoprism/storage:rw"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   mariadb:
     image: mariadb:10.11

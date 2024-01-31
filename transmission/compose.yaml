@@ -15,3 +15,5 @@ services:
       - 51413:51413
       - 51413:51413/udp
     restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true

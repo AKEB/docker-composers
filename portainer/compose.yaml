@@ -14,5 +14,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${PWD}/portainer_data:/data
     image: portainer/portainer-ce:latest
-
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      
 networks: {}

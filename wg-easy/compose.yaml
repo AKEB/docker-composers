@@ -18,3 +18,5 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv4.ip_forward=1
     restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true

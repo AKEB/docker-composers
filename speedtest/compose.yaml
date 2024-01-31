@@ -23,6 +23,8 @@ services:
     restart: always
     depends_on:
       - db
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   db:
     image: mariadb:10

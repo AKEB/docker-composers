@@ -21,3 +21,5 @@ services:
     env_file: ${PWD}/.env
     depends_on:
       - mysql
+    labels:
+      - com.centurylinklabs.watchtower.enable=true

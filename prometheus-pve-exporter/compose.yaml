@@ -14,5 +14,6 @@ services:
 #      - ${PORT}:9221
     restart: always
     network_mode: host
-    environment:
-      TZ: "Europe/Moscow"
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      

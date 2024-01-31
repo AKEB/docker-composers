@@ -22,3 +22,5 @@ services:
     restart: always
     networks:
       - default
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
