@@ -12,5 +12,3 @@ services:
       - ${PORT}:3000
     volumes:
       - ${PWD}/config:/app/config
-    environment:
-      - TZ=${TZ}

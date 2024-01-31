@@ -8,12 +8,6 @@ services:
     restart: always
     image: 'jc21/nginx-proxy-manager:latest'
     env_file: ${PWD}/.env
-    environment:
-      TZ: ${TZ}
-      REAL_IP_HEADER: "X-Real-IP"
-      TRUSTED_PROXIES: ${TRUSTED_PROXIES}
-      DB_MYSQL_HOST: "mariadb"
-      DB_MYSQL_PORT: 3306
     ports:
       - 80:80
       - ${ADMIN_PORT}:81
@@ -30,11 +24,5 @@ services:
     restart: always
     image: 'yobasystems/alpine-mariadb:latest'
     env_file: ${PWD}/.env
-    environment:
-      TZ: ${TZ}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./mysql:/var/lib/mysql

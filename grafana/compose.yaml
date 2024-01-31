@@ -15,8 +15,6 @@ services:
     ports:
       - ${PROMETHEUS_PORT}:9090
     restart: always
-    environment:
-      TZ: ${TZ}
     networks:
       - default
 
@@ -34,8 +32,6 @@ services:
     container_name: grafana
     hostname: grafana
     restart: always
-    environment:
-      TZ: ${TZ}
     networks:
       - default
 
@@ -49,8 +45,6 @@ services:
       - ${PWD}/alertmanager/:/etc/alertmanager/
     container_name: alertmanager
     hostname: alertmanager
-    environment:
-      TZ: ${TZ}
     restart: always
     command:
       - '--config.file=/etc/alertmanager/config.yml'
@@ -70,8 +64,6 @@ services:
       - "--config.file=/etc/blackbox/blackbox.yml"
     volumes:
       - ${PWD}/blackbox:/etc/blackbox
-    environment:
-      TZ: ${TZ}
     networks:
       - default
 

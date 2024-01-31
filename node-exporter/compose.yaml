@@ -6,8 +6,6 @@ services:
    node-exporter:
     image: prom/node-exporter
     env_file: ${PWD}/.env
-    environment:
-      TZ: ${TZ}
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro

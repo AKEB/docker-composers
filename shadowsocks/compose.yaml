@@ -1,0 +1,13 @@
+---
+version: "3.4"
+name: shadowsocks
+services:
+  shadowsocks-libev:
+    container_name: shadowsocks-libev
+    image: acrisliu/shadowsocks-libev
+    user: root
+    ports:
+      - ${SHADOWSOCKS_TCP_PORT}:8388/tcp
+      - ${SHADOWSOCKS_UDP_PORT}:8388/udp
+    env_file: ${PWD}/.env
+    restart: always

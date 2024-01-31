@@ -1,0 +1,30 @@
+---
+version: '3.4'
+name: openvpn
+services:
+
+  openvpn:
+    cap_add:
+      - NET_ADMIN
+    image: kylemanna/openvpn
+    container_name: openvpn
+    env_file: ${PWD}/.env
+    ports:
+      - ${OPENVPN_PORT}:1194/udp
+    restart: always
+    volumes:
+      - ${PWD}/configs:/etc/openvpn
+      - ${PWD}/status:/etc/openvpn/status
+
+  openvpn-exporter:
+   cap_add:
+     - NET_ADMIN
+   image: kumina/openvpn-exporter
+   env_file: ${PWD}/.env
+   container_name: openvpn-exporter
+   ports:
+     - ${OPENVPN_EXPORTER_PORT}:9176/tcp
+   restart: always
+   volumes:
+     - ${PWD}/status:/etc/openvpn_exporter/status
+   entrypoint: "/bin/openvpn_exporter -openvpn.status_paths /etc/openvpn_exporter/status/server.status"
