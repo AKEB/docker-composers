@@ -25,6 +25,7 @@ services:
     container_name: influxdb
     networks:
       - default
+    env_file: ${PWD}/.env
     security_opt:
       - no-new-privileges:true
     restart: always
