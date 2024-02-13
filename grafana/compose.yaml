@@ -20,11 +20,28 @@ services:
     labels:
       - com.centurylinklabs.watchtower.enable=true
 
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    networks:
+      - default
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+    ports:
+      - "${INFLUXDB_PORT}:8086"
+    volumes:
+      - ${PWD}/influxdb2/config:/etc/influxdb2
+      - ${PWD}/influxdb2/db:/var/lib/influxdb2
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+
   grafana:
     image: grafana/grafana
     user: root
     depends_on:
       - prometheus
+      - influxdb
     env_file: ${PWD}/.env
     ports:
       - ${GRAFANA_PORT}:3000
