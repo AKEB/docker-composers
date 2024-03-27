@@ -1,0 +1,62 @@
+---
+version: "3.8"
+
+name: kestra
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    volumes:
+      - ${PWD}/postgres-data:/var/lib/postgresql/data
+    env_file: ${PWD}/.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+  kestra:
+    image: kestra/kestra:latest-full
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    user: "root"
+    command: server standalone --worker-thread=128
+    env_file: ${PWD}/.env
+    volumes:
+      - ${PWD}/kestra-data:/app/storage
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/kestra-wd:/tmp/kestra-wd
+    environment:
+      KESTRA_CONFIGURATION: |
+        datasources:
+          postgres:
+            url: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+            driverClassName: org.postgresql.Driver
+            username: ${POSTGRES_USER}
+            password: ${POSTGRES_PASSWORD}
+        kestra:
+          server:
+            basic-auth:
+              enabled: true
+              username: ${KESTRA_USER}
+              password: ${KESTRA_PASSWORD}
+          repository:
+            type: postgres
+          storage:
+            type: local
+            local:
+              base-path: "/app/storage"
+          queue:
+            type: postgres
+          tasks:
+            tmp-dir:
+              path: /tmp/kestra-wd/tmp
+          url: http://localhost:8080/
+    ports:
+      - "${KESTRA_WEBPORT}:8080"
+      - "${KESTRA_PORT}:8081"
+    depends_on:
+      postgres:
+        condition: service_started
