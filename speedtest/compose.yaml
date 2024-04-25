@@ -19,7 +19,8 @@ services:
     volumes:
       - ${PWD}/app:/config
       - ${PWD}/web:/etc/ssl/web
-    image: 'ghcr.io/alexjustesen/speedtest-tracker:latest'
+    # image: 'ghcr.io/alexjustesen/speedtest-tracker:latest'
+    image: 'lscr.io/linuxserver/speedtest-tracker:latest'
     restart: always
     depends_on:
       - db
