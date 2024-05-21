@@ -1,0 +1,22 @@
+---
+version: "3.8"
+name: "gitlab"
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    restart: always
+    hostname: '${HOST}'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://${HOST}'
+        gitlab_rails['gitlab_shell_ssh_port'] = ${SSH_PORT}
+    ports:
+      - ${HTTP_PORT}:80
+      - ${HTTPS_PORT}:443
+      - ${SSH_PORT}:22
+    volumes:
+      - '${PWD}/config:/etc/gitlab'
+      - '${PWD}/logs:/var/log/gitlab'
+      - '${PWD}/data:/var/opt/gitlab'
+    shm_size: '256m'
