@@ -1,0 +1,21 @@
+---
+version: '3.9'
+name: netalertx
+services:
+
+  netalertx:
+    container_name: netalertx
+    # use the below line if you want to test the latest dev image
+    # image: "jokobsk/netalertx-dev:latest"
+    image: "jokobsk/netalertx:latest"
+    restart: always
+    network_mode: "host"
+    env_file: ${PWD}/.env
+    volumes:
+      - ${AUDIOBOOKS_FOLDER}:/audiobooks
+      - ${PODCASTS_FOLDER}:/podcasts
+      - ${PWD}/config:/app/config
+      - ${PWD}/db:/app/db
+      - ${PWD}/logs:/app/front/log
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
