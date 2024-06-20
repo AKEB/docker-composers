@@ -1,0 +1,16 @@
+---
+version: '3.9'
+name: uptime-kuma
+services:
+
+  uptime-kuma:
+    container_name: uptime-kuma
+    image: "louislam/uptime-kuma:latest"
+    restart: always
+    env_file: ${PWD}/.env
+    volumes:
+      - ${PWD}/data:/app/data
+    ports:
+      - ${WEB_PORT}:3001
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
