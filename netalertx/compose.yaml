@@ -12,8 +12,6 @@ services:
     network_mode: "host"
     env_file: ${PWD}/.env
     volumes:
-      - ${AUDIOBOOKS_FOLDER}:/audiobooks
-      - ${PODCASTS_FOLDER}:/podcasts
       - ${PWD}/config:/app/config
       - ${PWD}/db:/app/db
       - ${PWD}/logs:/app/front/log
