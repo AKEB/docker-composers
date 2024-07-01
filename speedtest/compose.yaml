@@ -24,7 +24,6 @@ services:
       - DISPLAY_TIMEZONE=${DISPLAY_TIMEZONE}
       - PUBLIC_DASHBOARD=true
       - PRUNE_RESULTS_OLDER_THAN=${PRUNE_RESULTS_OLDER_THAN}
-      - SPEEDTEST_PING_URL=8.8.8.8
     volumes:
       - ${PWD}/app:/config
       - ${PWD}/web:/etc/ssl/web
