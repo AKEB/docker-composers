@@ -16,6 +16,16 @@ services:
       - DB_DATABASE=speedtest_tracker
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
+      - PUID=1000
+      - PGID=1000
+      - APP_NAME=Speedtest
+      - APP_URL=${APP_URL}
+      - SPEEDTEST_SCHEDULE=${SPEEDTEST_SCHEDULE}
+      - DISPLAY_TIMEZONE=${DISPLAY_TIMEZONE}
+      - PUBLIC_DASHBOARD=true
+      - PRUNE_RESULTS_OLDER_THAN=${PRUNE_RESULTS_OLDER_THAN}
+      - SPEEDTEST_PING_URL=8.8.8.8
+      - SPEEDTEST_SERVERS=${SPEEDTEST_SERVERS}
     volumes:
       - ${PWD}/app:/config
       - ${PWD}/web:/etc/ssl/web
