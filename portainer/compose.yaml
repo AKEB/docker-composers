@@ -1,5 +1,5 @@
 ---
-version: "3.3"
+# version: "3.3"
 name: portainer
 services:
 
@@ -16,5 +16,5 @@ services:
     image: portainer/portainer-ce:latest
     labels:
       - com.centurylinklabs.watchtower.enable=true
-      
+
 networks: {}

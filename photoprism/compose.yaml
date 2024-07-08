@@ -1,5 +1,5 @@
 ---
-version: '3.5'
+# version: '3.5'
 name: photoprism
 # Example Docker Compose config file for PhotoPrism (Linux / AMD64)
 #

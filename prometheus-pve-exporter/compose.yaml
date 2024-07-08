@@ -1,5 +1,5 @@
 ---
-version: '3.3'
+# version: '3.3'
 name: 'prometheus-pve-exporter'
 services:
 
@@ -16,4 +16,3 @@ services:
     network_mode: host
     labels:
       - com.centurylinklabs.watchtower.enable=true
-      
