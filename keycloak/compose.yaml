@@ -29,7 +29,8 @@ services:
     environment:
       KC_LOG_LEVEL: debug
       KC_DB: postgres
-      KC_DB_URL: 'jdbc:postgresql://postgres/${POSTGRES_DB}'
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: ${POSTGRES_DB}
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
       KC_DB_SCHEMA: public
