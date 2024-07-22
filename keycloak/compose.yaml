@@ -22,6 +22,9 @@ services:
 
 
   keycloak:
+    # image: quay.io/keycloak/keycloak:latest
+    build:
+      context: .
     container_name: keycloak
     depends_on:
       - postgres
@@ -38,7 +41,6 @@ services:
       HTTP_ADDRESS_FORWARDING: true
       # KC_PROXY_HEADERS: xforwarded
     command: start --optimized
-    image: quay.io/keycloak/keycloak:latest
     ports:
       - "8080:8080"
     restart: always
