@@ -39,7 +39,7 @@ services:
     command: start --optimized
     image: quay.io/keycloak/keycloak:latest
     ports:
-      - "127.0.0.1:8080:8080"
+      - "8080:8080"
     restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
