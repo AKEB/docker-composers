@@ -32,7 +32,7 @@ services:
       DB_DATABASE: ${POSTGRES_DB}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
-    image: jboss/keycloak:latest
+    image: quay.io/keycloak/keycloak:latest
     ports:
       - "8080:8080"
     restart: always
