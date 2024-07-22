@@ -1,10 +1,9 @@
 ---
-# version: "3.4"
+
 name: 'authentik'
 services:
-
   postgresql:
-    image: docker.io/library/postgres:12-alpine
+    image: docker.io/library/postgres:16-alpine
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
@@ -12,21 +11,18 @@ services:
       interval: 30s
       retries: 5
       timeout: 5s
-    env_file: ${PWD}/.env
     volumes:
       - ${PWD}/database:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${PG_PASS:?database password required}
       POSTGRES_USER: ${PG_USER:-authentik}
       POSTGRES_DB: ${PG_DB:-authentik}
-    labels:
-      - wud.watch=false
-
+    env_file:
+      - .env
   redis:
     image: docker.io/library/redis:alpine
     command: --save 60 1 --loglevel warning
     restart: unless-stopped
-    env_file: ${PWD}/.env
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       start_period: 20s
@@ -35,14 +31,10 @@ services:
       timeout: 3s
     volumes:
       - ${PWD}/redis:/data
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-
   server:
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.10.6}
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2024.6.1}
     restart: unless-stopped
     command: server
-    env_file: ${PWD}/.env
     environment:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgresql
@@ -50,22 +42,20 @@ services:
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
     volumes:
-      - ${PWD}/media:/media
-      - ${PWD}/custom-templates:/templates
+      - ./media:/media
+      - ./custom-templates:/templates
+    env_file:
+      - .env
     ports:
       - "${COMPOSE_PORT_HTTP:-9000}:9000"
       - "${COMPOSE_PORT_HTTPS:-9443}:9443"
     depends_on:
       - postgresql
       - redis
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-
   worker:
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.10.6}
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2024.6.1}
     restart: unless-stopped
     command: worker
-    env_file: ${PWD}/.env
     environment:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgresql
@@ -81,11 +71,11 @@ services:
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${PWD}/media:/media
-      - ${PWD}/certs:/certs
-      - ${PWD}/custom-templates:/templates
+      - ./media:/media
+      - ./certs:/certs
+      - ./custom-templates:/templates
+    env_file:
+      - .env
     depends_on:
       - postgresql
       - redis
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
