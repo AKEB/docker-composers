@@ -40,10 +40,12 @@ services:
       KC_HTTP_ENABLED: true
       HTTP_ADDRESS_FORWARDING: true
       # KC_PROXY_HEADERS: xforwarded
-    command: start --optimized
+    # command: start --optimized
     ports:
       - "8080:8080"
     restart: always
+    volumes:
+      - ${PWD}/keycloak/:/opt/keycloak/data/
     labels:
       - com.centurylinklabs.watchtower.enable=true
 
