@@ -6,7 +6,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:13.2
+    image: postgres:16
     restart: always
     env_file: ${PWD}/.env
     volumes:
@@ -27,12 +27,17 @@ services:
       - postgres
     env_file: ${PWD}/.env
     environment:
-      DB_VENDOR: postgres
-      DB_ADDR: postgres
-      DB_DATABASE: ${POSTGRES_DB}
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_LOG_LEVEL: debug
+      KC_DB: postgres
+      KC_DB_URL: 'jdbc:postgresql://postgres/${POSTGRES_DB}'
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_DB_SCHEMA: public
+      KC_HTTP_ENABLED: true
+      HTTP_ADDRESS_FORWARDING: true
+      # KC_PROXY_HEADERS: xforwarded
+    command: start --optimized
     image: quay.io/keycloak/keycloak:latest
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
     restart: always
