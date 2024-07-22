@@ -4,48 +4,61 @@ name: "keycloak"
 
 services:
 
-  # postgres:
-  #   container_name: postgres
-  #   image: postgres:16
-  #   restart: always
-  #   env_file: ${PWD}/.env
-  #   volumes:
-  #     - ${PWD}/database:/var/lib/postgresql/data
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-  #     start_period: 20s
-  #     interval: 30s
-  #     retries: 5
-  #     timeout: 5s
-  #   labels:
-  #     - wud.watch=false
-
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    env_file: ${PWD}/.env
+    volumes:
+      - ${PWD}/database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d postgres -U $${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    ports:
+      - ${KC_POSTGRES_PORT_MAPPING:-5435}:5432
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    labels:
+      - wud.watch=false
 
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
-    # build:
-    #   context: .
+    image: quay.io/keycloak/keycloak:20.0.2
     container_name: keycloak
-    # depends_on:
-    #   - postgres
+    restart: always
     env_file: ${PWD}/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master"]
+      start_period: 10s
+      interval: 30s
+      retries: 3
+      timeout: 5s
+    command:
+      - start --auto-build --db postgres --hostname-strict-https false --hostname-strict false --proxy edge --http-enabled true --import-realm --spi-user-profile-legacy-user-profile-read-only-attributes *_RES_ACCESS_MODE
     environment:
-      KC_LOG_LEVEL: debug
-      # KC_DB: postgres
-      # KC_DB_URL_HOST: postgres
-      # KC_DB_URL_DATABASE: ${POSTGRES_DB}
-      # KC_DB_USERNAME: ${POSTGRES_USER}
-      # KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
-      # KC_DB_SCHEMA: public
+      KC_DB_URL: jdbc:postgresql://postgres:5432/postgres
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_DB_SCHEMA: public
+      KC_FEATURES: preview
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
       KC_HTTP_ENABLED: true
       HTTP_ADDRESS_FORWARDING: true
-      # KC_PROXY_HEADERS: xforwarded
-    command: start-dev
-    ports:
-      - "8080:8080"
-    restart: always
-    volumes:
-      - ${PWD}/keycloak/:/opt/keycloak/data/
     labels:
       - com.centurylinklabs.watchtower.enable=true
 
