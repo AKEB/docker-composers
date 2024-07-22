@@ -40,7 +40,7 @@ services:
       KC_HTTP_ENABLED: true
       HTTP_ADDRESS_FORWARDING: true
       # KC_PROXY_HEADERS: xforwarded
-    command: start
+    command: start-dev
     ports:
       - "8080:8080"
     restart: always
