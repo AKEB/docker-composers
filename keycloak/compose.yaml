@@ -4,39 +4,39 @@ name: "keycloak"
 
 services:
 
-  postgres:
-    container_name: postgres
-    image: postgres:16
-    restart: always
-    env_file: ${PWD}/.env
-    volumes:
-      - ${PWD}/database:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 5s
-    labels:
-      - wud.watch=false
+  # postgres:
+  #   container_name: postgres
+  #   image: postgres:16
+  #   restart: always
+  #   env_file: ${PWD}/.env
+  #   volumes:
+  #     - ${PWD}/database:/var/lib/postgresql/data
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+  #     start_period: 20s
+  #     interval: 30s
+  #     retries: 5
+  #     timeout: 5s
+  #   labels:
+  #     - wud.watch=false
 
 
   keycloak:
-    # image: quay.io/keycloak/keycloak:latest
-    build:
-      context: .
+    image: quay.io/keycloak/keycloak:latest
+    # build:
+    #   context: .
     container_name: keycloak
-    depends_on:
-      - postgres
+    # depends_on:
+    #   - postgres
     env_file: ${PWD}/.env
     environment:
       KC_LOG_LEVEL: debug
-      KC_DB: postgres
-      KC_DB_URL_HOST: postgres
-      KC_DB_URL_DATABASE: ${POSTGRES_DB}
-      KC_DB_USERNAME: ${POSTGRES_USER}
-      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
-      KC_DB_SCHEMA: public
+      # KC_DB: postgres
+      # KC_DB_URL_HOST: postgres
+      # KC_DB_URL_DATABASE: ${POSTGRES_DB}
+      # KC_DB_USERNAME: ${POSTGRES_USER}
+      # KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      # KC_DB_SCHEMA: public
       KC_HTTP_ENABLED: true
       HTTP_ADDRESS_FORWARDING: true
       # KC_PROXY_HEADERS: xforwarded
