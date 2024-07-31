@@ -44,12 +44,18 @@ services:
     volumes:
       - ./media:/media
       - ./custom-templates:/templates
+      - ./custom.css:/web/dist/custom.css
+      - ./custom_static:/web/dist/custom_static
     env_file:
       - .env
     ports:
-      - "${COMPOSE_PORT_HTTP:-37080}:37080"
-      - "${COMPOSE_PORT_HTTPS:-37443}:37443"
+      - "${COMPOSE_PORT_HTTP:-9000}:9000"
+      - "${COMPOSE_PORT_HTTPS:-9443}:9443"
       - "${COMPOSE_PORT_METRICS:-9300}:9300"
+      - "${COMPOSE_PORT_LDAP:-3389}:3389"
+      - "${COMPOSE_PORT_LDAPS:-6636}:6636"
+      - "${COMPOSE_PORT_RADIUS:-1812}:1812"
+      - "${COMPOSE_PORT_DEGUG:-9900}:9900"
     depends_on:
       - postgresql
       - redis
@@ -75,6 +81,8 @@ services:
       - ./media:/media
       - ./certs:/certs
       - ./custom-templates:/templates
+      - ./custom.css:/web/dist/custom.css
+      - ./custom_static:/web/dist/custom_static
     env_file:
       - .env
     depends_on:
