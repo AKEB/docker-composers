@@ -47,8 +47,9 @@ services:
     env_file:
       - .env
     ports:
-      - "${COMPOSE_PORT_HTTP:-9000}:9000"
-      - "${COMPOSE_PORT_HTTPS:-9443}:9443"
+      - "${COMPOSE_PORT_HTTP:-37080}:37080"
+      - "${COMPOSE_PORT_HTTPS:-37443}:37443"
+      - "${COMPOSE_PORT_METRICS:-9300}:9300"
     depends_on:
       - postgresql
       - redis
