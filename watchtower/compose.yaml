@@ -3,12 +3,13 @@
 name: watchtower
 services:
   watchtower:
+    container_name: watchtower
     image: containrrr/watchtower
     env_file: ${PWD}/.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
     ports:
-      - 3044:8080
+      - ${WATCHTOWER_HTTP_PORT}:8080
     labels:
       - com.centurylinklabs.watchtower.enable=true
