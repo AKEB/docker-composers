@@ -1,7 +1,7 @@
 /*** global ***/
 :root {
   --ak-accent: #3A244A;
-  --ak-flow-background: url(https://picsum.photos/1920/1080) !important;
+  /* --ak-flow-background: url(https://picsum.photos/1920/1080) !important; */
   --pf-global--primary-color--100: #70468E;
   --pf-global--primary-color--200: #55356c;
   --pf-global--primary-color--400: var(--ak-accent);
