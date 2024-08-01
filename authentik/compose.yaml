@@ -3,8 +3,9 @@
 name: 'authentik'
 services:
   postgresql:
+    container_name: authentik_postgresql
     image: docker.io/library/postgres:16-alpine
-    restart: unless-stopped
+    restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       start_period: 20s
@@ -19,10 +20,12 @@ services:
       POSTGRES_DB: ${PG_DB:-authentik}
     env_file:
       - .env
+
   redis:
+    container_name: authentik_redis
     image: docker.io/library/redis:alpine
     command: --save 60 1 --loglevel warning
-    restart: unless-stopped
+    restart: always
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       start_period: 20s
@@ -31,9 +34,13 @@ services:
       timeout: 3s
     volumes:
       - ${PWD}/redis:/data
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+
   server:
+    container_name: authentik_server
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2024.6.1}
-    restart: unless-stopped
+    restart: always
     command: server
     environment:
       AUTHENTIK_REDIS__HOST: redis
@@ -59,9 +66,13 @@ services:
     depends_on:
       - postgresql
       - redis
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+
   worker:
+    container_name: authentik_worker
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2024.6.1}
-    restart: unless-stopped
+    restart: always
     command: worker
     environment:
       AUTHENTIK_REDIS__HOST: redis
@@ -88,3 +99,5 @@ services:
     depends_on:
       - postgresql
       - redis
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
