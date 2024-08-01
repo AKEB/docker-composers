@@ -1,0 +1,66 @@
+---
+services:
+  nginx1:
+    image: nginx
+    volumes:
+      - ./nginx1.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:80"
+    networks:
+      - network1
+
+  server1:
+    image: nginx
+    volumes:
+      - ./server1.html:/usr/share/nginx/html/index.html
+    networks:
+      - network1
+
+  server2:
+    image: nginx
+    volumes:
+      - ./server2.html:/usr/share/nginx/html/index.html
+    networks:
+      - network1
+
+---
+services:
+  nginx2:
+    image: nginx
+    volumes:
+      - ./nginx2.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:80"
+    networks:
+      - network1
+
+  server3:
+    image: nginx
+    volumes:
+      - ./server3.html:/usr/share/nginx/html/index.html
+    networks:
+      - network1
+
+  server4:
+    image: nginx
+    volumes:
+      - ./server4.html:/usr/share/nginx/html/index.html
+    networks:
+      - network1
+
+---
+services:
+  nginx3:
+    image: nginx
+    volumes:
+      - ./nginx3.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:81"
+    networks:
+      - network1
+      - network2
+
+
+networks:
+  network1:
+  network2:
