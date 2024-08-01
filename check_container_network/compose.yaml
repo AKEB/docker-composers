@@ -30,7 +30,7 @@ services:
     volumes:
       - ./nginx2.conf:/etc/nginx/nginx.conf:ro
     ports:
-      - "8080:80"
+      - "8081:80"
     networks:
       - network1
 
@@ -55,7 +55,7 @@ services:
     volumes:
       - ./nginx3.conf:/etc/nginx/nginx.conf:ro
     ports:
-      - "8080:81"
+      - "8082:81"
     networks:
       - network1
       - network2
