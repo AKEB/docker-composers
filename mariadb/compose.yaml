@@ -13,8 +13,6 @@ services:
     volumes:
       - ${PWD}/mariadb:/var/lib/mysql
       - ${PWD}/mariadb_config:/etc/mysql
-    labels:
-      - wud.watch=false
 
   phpmyadmin:
     image: phpmyadmin

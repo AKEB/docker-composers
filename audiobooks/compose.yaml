@@ -11,6 +11,7 @@ services:
       - ${WEB_PORT}:80
     volumes:
       - ${AUDIOBOOKS_FOLDER}:/audiobooks
+      - ${BOOKS_FOLDER}:/books
       - ${PODCASTS_FOLDER}:/podcasts
       - ${PWD}/config:/config
       - ${PWD}/metadata:/metadata
