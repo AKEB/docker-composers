@@ -3,7 +3,7 @@
 name: 'wg-easy'
 services:
   wg-easy:
-    image: babadzhanyan/wg-easy
+    image: wg-easy/wg-easy
     container_name: wg-easy
     cap_add:
       - NET_ADMIN
